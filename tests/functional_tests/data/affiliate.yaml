@@ -1,0 +1,6 @@
+- name: Get Affiliate Info
+  path: "affiliate/info"
+  scope: "affiliate"
+- name: Get Affiliate Status
+  path: "affiliate/status"
+  scope: "affiliate"

@@ -1,0 +1,6 @@
+- name: Get AppStore List
+  path: "appstore/list"
+  scope: "appstore"
+- name: Get AppStore Pedido
+  path: "appstore/pedido/123"
+  scope: "appstore"

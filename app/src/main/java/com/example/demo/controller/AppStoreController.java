@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class AppStoreController {
     private static final String TOKEN_AUTHORIZED_FOR_GET = "token authorized for get {}";
-    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(AppStoreController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppStoreController.class);
 
-    private ResponseEntity<Object> getResponse(HttpServletRequest req, String tokenAuthorizedFor) throws MalformedURLException {
+    private ResponseEntity<Object> getResponse(HttpServletRequest req, String tokenAuthorizedFor)
+            throws MalformedURLException {
         logger.info(tokenAuthorizedFor, req.getServletPath());
         return ResponseEntity.ok().build();
     }
@@ -31,5 +33,13 @@ public class AppStoreController {
         logger.info("token authorized for {} {}", httpMethod, req.getServletPath());
         return getResponse(req, TOKEN_AUTHORIZED_FOR_GET);
     }
-}
 
+    @PreAuthorize("oauth2.hasScope('appstore')")
+    @GetMapping(value = "/appstore/pedido/{id}", produces = "application/json")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<Object> getAppsPedido(HttpServletRequest req) throws MalformedURLException {
+        HttpMethod httpMethod = HttpMethod.valueOf(req.getMethod());
+        logger.info("token authorized for {} {}", httpMethod, req.getServletPath());
+        return getResponse(req, TOKEN_AUTHORIZED_FOR_GET);
+    }
+}

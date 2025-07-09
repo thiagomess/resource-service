@@ -1,6 +1,11 @@
 package com.example.demo.controller;
 
+import java.net.MalformedURLException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,23 +14,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.servlet.http.HttpServletRequest;
-import java.net.MalformedURLException;
-
 @Controller
-public class AssetManageController {
+public class AuthController {
     private static final String TOKEN_AUTHORIZED_FOR_GET = "token authorized for get {}";
-    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(AssetManageController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-    private ResponseEntity<Object> getResponse(HttpServletRequest req, String tokenAuthorizedFor) throws MalformedURLException {
+    private ResponseEntity<Object> getResponse(HttpServletRequest req, String tokenAuthorizedFor)
+            throws MalformedURLException {
         logger.info(tokenAuthorizedFor, req.getServletPath());
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("oauth2.hasScope('asset')")
-    @GetMapping(value = "/asset/manage", produces = "application/json")
+    @PreAuthorize("oauth2.hasScope('auth')")
+    @GetMapping(value = "/auth/check", produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<Object> getAsset(HttpServletRequest req) throws MalformedURLException {
+    public ResponseEntity<Object> getAuth(HttpServletRequest req) throws MalformedURLException {
         HttpMethod httpMethod = HttpMethod.valueOf(req.getMethod());
         logger.info("token authorized for {} {}", httpMethod, req.getServletPath());
         return getResponse(req, TOKEN_AUTHORIZED_FOR_GET);

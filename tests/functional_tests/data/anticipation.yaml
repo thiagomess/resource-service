@@ -1,0 +1,3 @@
+- name: Get Anticipation Data
+  path: "anticipation/data"
+  scope: "anticipation"
